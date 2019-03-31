@@ -6,6 +6,8 @@ fun main(args: Array<String>) {
         "empty"
     }
 
+    // Будет в Java 12
+    // https://habr.com/ru/post/443464/
     val marker = when ("Foo") {
         "Foo" -> Foo()
         "Bar" -> Bar()
@@ -20,15 +22,19 @@ fun main(args: Array<String>) {
 
     println("It's $typeName")
 
+    // Type cast
+    if (marker is Foo) {
+        val javaClass = marker.javaClass
+        print(javaClass)
+    }
+
     val oldStyle = TestClass()
     oldStyle.addFoo(Foo())
     oldStyle.addBar(Bar())
-    oldStyle.init()
 
     val kotlinStyle = TestClass().apply {
         addFoo(Foo())
         addBar(Bar())
-        init()
     }
 }
 
@@ -46,11 +52,5 @@ class TestClass {
 
     fun addBar(bar: Bar) {
         this.bar = bar
-    }
-
-    fun init() {
-        if (foo == null || bar == null) {
-            throw IllegalStateException("Something wrong")
-        }
     }
 }
